@@ -1,18 +1,22 @@
 // Client/constants/Texts.js
 export const Texts = {
   en: {
+    Forecast: "Forecast",
+    profile : "Profile",
+    login: "Login",
+    purchases: "Purchases",
     hero: {
-      title: "Marlene Predictions",
-      subtitle: "Increase your profits with our professional sports predictions",
+      title: "SportPronos",
+      subtitle: "Increase your profits with our professional sports Forecast",
       ctaPrimary: "Try now",
-      ctaSecondary: "View predictions",
+      ctaSecondary: "View Forecast",
     },
     testimonials: {
       title: "What our members say",
-      subtitle: "Join our community of successful bettors and discover how our predictions can change your game.",
+      subtitle: "Join our community of successful bettors and discover how our Forecast can change your game.",
       items: [
         {
-          quote: "Marlene's predictions have completely changed the way I bet. I've multiplied my earnings in just 3 months.",
+          quote: "SportPronos have completely changed the way I bet. I've multiplied my earnings in just 3 months.",
           author: "Carlos M.",
           position: "Member since 2023",
         },
@@ -23,14 +27,14 @@ export const Texts = {
         },
         {
           quote:
-            "I no longer waste time researching, the experts at Marlene Predictions do all the work for me with impressive results.",
+            "I no longer waste time researching, the experts at  SportPronos do all the work for me with impressive results.",
           author: "Martín R.",
           position: "VIP Member",
         },
       ],
     },
     features: {
-      title: "Why choose our predictions?",
+      title: "Why choose our Forecast?",
       items: [
         
         {
@@ -58,7 +62,7 @@ export const Texts = {
           name: "Beginner",
           price: "19.99",
           interval: "monthly",
-          features: ["5 weekly predictions", "Access to basic statistics", "Email support"],
+          features: ["5 weekly Forecast", "Access to basic statistics", "Email support"],
           recommended: false,
           buttonText: "Get started",
         },
@@ -66,7 +70,7 @@ export const Texts = {
           name: "Professional",
           price: "49.99",
           interval: "monthly",
-          features: ["15 weekly predictions", "Complete match analysis", "Real-time alerts", "24/7 priority support"],
+          features: ["15 weekly Forecast", "Complete match analysis", "Real-time alerts", "24/7 priority support"],
           recommended: true,
           buttonText: "Get best value",
         },
@@ -75,7 +79,7 @@ export const Texts = {
           price: "99.99",
           interval: "monthly",
           features: [
-            "Unlimited predictions",
+            "Unlimited Forecast",
             "Exclusive analysis",
             "Personalized advice",
             "Access to private group",
@@ -88,8 +92,12 @@ export const Texts = {
     },
   },
   es: {
+    Forecast: "Pronóstico",
+    profile : "Perfil",
+    login: "Iniciar sesión",
+    purchases: "Compras",
     hero: {
-      title: "Marlene Predicciones",
+      title: "SportPronos",
       subtitle: "Aumenta tus ganancias con nuestros pronósticos deportivos profesionales",
       ctaPrimary: "Probar ahora",
       ctaSecondary: "Ver pronósticos",
@@ -100,7 +108,7 @@ export const Texts = {
       items: [
         {
           quote:
-            "Los pronósticos de Marlene han cambiado completamente mi forma de apostar. He multiplicado mis ganancias en solo 3 meses.",
+            "SportPronos ha cambiado completamente mi forma de apostar. He multiplicado mis ganancias en solo 3 meses.",
           author: "Carlos M.",
           position: "Miembro desde 2023",
         },
@@ -111,7 +119,7 @@ export const Texts = {
         },
         {
           quote:
-            "Ya no pierdo tiempo investigando, los expertos de Marlene Pronósticos hacen todo el trabajo por mí con resultados impresionantes.",
+            "Ya no pierdo tiempo investigando, los expertos de SportPronos hacen todo el trabajo por mí con resultados impresionantes.",
           author: "Martín R.",
           position: "Miembro VIP",
         },

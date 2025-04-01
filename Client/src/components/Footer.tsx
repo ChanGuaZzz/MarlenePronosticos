@@ -1,15 +1,15 @@
-import { useLanguage } from '../contexts/LanguageContext';
+import { useAppContext } from '../contexts/AppContext';
 import { Link } from 'react-router-dom';
 
 function Footer() {
-  const { Texts, toggleLanguage, language } = useLanguage();
+  const { Texts, toggleLanguage, language } = useAppContext();
   
   return (
     <footer className="bg-green-900 text-white py-12">
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <h3 className="text-xl font-bold mb-4">Marlene Pronósticos</h3>
+            <h3 className="text-xl font-bold mb-4">SportPronos</h3>
             <p className="text-green-200 mb-4">
               Proporcionamos los pronósticos deportivos más precisos desde 2020.
             </p>
@@ -48,7 +48,7 @@ function Footer() {
                   <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
                 </svg>
                 <a href="mailto:info@marlenepronosticos.com" className="text-green-300 hover:text-white transition-colors">
-                  info@marlenepronosticos.com
+                  info@pronosticos.com
                 </a>
               </li>
               <li className="flex items-center">
@@ -80,7 +80,7 @@ function Footer() {
         
         <div className="border-t border-green-700 mt-10 pt-6 text-center">
           <p className="text-green-300 text-sm">
-            &copy; {new Date().getFullYear()} Marlene Pronósticos. Todos los derechos reservados.
+            &copy; {new Date().getFullYear()} SportPronos. Todos los derechos reservados.
           </p>
         </div>
       </div>

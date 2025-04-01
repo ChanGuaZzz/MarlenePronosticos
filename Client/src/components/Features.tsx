@@ -1,7 +1,7 @@
-import { useLanguage } from '../contexts/LanguageContext';
+import { useAppContext } from '../contexts/AppContext';
 
 function Features() {
-  const { Texts } = useLanguage();
+  const { Texts } = useAppContext();
   
 
   return (
@@ -15,7 +15,7 @@ function Features() {
           {Texts.features.items.map((feature, index) => (
             <div 
               key={index} 
-              className="bg-white w-[400px] h-[200px] p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow border-t-4 border-green-500"
+              className="showscroll bg-white w-[400px] h-[200px] p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow border-t-4 border-green-500"
             >
               <div className="text-4xl mb-4">{feature.icon}</div>
               <h3 className="text-xl font-bold text-green-700 mb-2">{feature.title}</h3>

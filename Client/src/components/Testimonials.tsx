@@ -1,7 +1,7 @@
-import { useLanguage } from "../contexts/LanguageContext";
+import { useAppContext } from "../contexts/AppContext";
 
 function Testimonials() {
-  const { Texts } = useLanguage();
+  const { Texts } = useAppContext();
 
  
 
@@ -15,7 +15,7 @@ function Testimonials() {
 
         <div className="grid gap-8 md:grid-cols-3">
           {Texts.testimonials.items.map((testimonial, index) => (
-            <div key={index} className="bg-green-50 p-8 rounded-xl shadow-md">
+            <div key={index} className="showscroll bg-green-50 p-8 rounded-xl shadow-md">
               <svg className="w-10 h-10 text-green-400 mb-4" fill="currentColor" viewBox="0 0 32 32">
                 <path d="M10,8H6a2,2,0,0,0-2,2v4a2,2,0,0,0,2,2h4v2a4,4,0,0,1-4,4H6a2,2,0,0,0,0,4h.2A8,8,0,0,0,14,18V10A2,2,0,0,0,12,8Z" />
                 <path d="M26,8H22a2,2,0,0,0-2,2v4a2,2,0,0,0,2,2h4v2a4,4,0,0,1-4,4H22a2,2,0,0,0,0,4h.2A8,8,0,0,0,30,18V10A2,2,0,0,0,28,8Z" />

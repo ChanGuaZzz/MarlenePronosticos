@@ -1,8 +1,8 @@
-import { useLanguage } from '../contexts/LanguageContext';
+import { useAppContext } from '../contexts/AppContext';
 import { useState } from 'react';
 
 function Contact() {
-  const { Texts } = useLanguage();
+  const { Texts } = useAppContext();
   const [email, setEmail] = useState('');
   
   const handleSubmit = (e: React.FormEvent) => {

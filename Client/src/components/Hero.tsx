@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
-import { useLanguage } from '../contexts/LanguageContext';
-import LandingPhoto from '../assets/81db0994-d107-4631-ad34-e6a7d7adad46.jpg'; // Assuming you have a landing image
+import { useAppContext } from '../contexts/AppContext';
+import LandingPhoto from '../assets/landingphoto.png'; // Assuming you have a landing image
 
 function Hero() {
-  const { Texts } = useLanguage();
+  const { Texts } = useAppContext();
 
   
   
@@ -11,7 +11,7 @@ function Hero() {
     <div className="relative bg-gradient-to-br from-green-700 to-green-900 text-white">
       <div className="container mx-auto px-6 py-16 md:py-24 md:flex md:items-center">
         <div className="text-center md:text-left md:w-1/2">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">{Texts.hero.title}</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 ">{Texts.hero.title}</h1>
           <p className="text-xl md:text-2xl mb-8">{Texts.hero.subtitle}</p>
           <div className="flex flex-col md:flex-row my-5 space-y-4 md:space-y-0 md:space-x-4 justify-center md:justify-start">
             <Link to={"/login"} className="bg-white text-green-800 hover:bg-green-100 px-6 py-3 rounded-lg font-semibold shadow-lg transition-all">
@@ -26,7 +26,7 @@ function Hero() {
           <img 
             src={LandingPhoto}
             alt="Sports prediction" 
-            className=" w-[80%] hidden md:block rounded-lg shadow-xl mt-8 md:mt-0"
+            className="landing w-[80%] max-w-[400px] hidden md:block rounded-lg shadow-xl mt-8 md:mt-0"
             onError={(e) => {
               e.currentTarget.src = "https://placehold.co/600x400/3b8250/FFFFFF?text=Pronósticos+Deportivos";
             }}
