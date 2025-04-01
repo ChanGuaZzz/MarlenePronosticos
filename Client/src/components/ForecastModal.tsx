@@ -17,7 +17,7 @@ const ForecastModal: React.FC<ForecastModalProps> = ({ isOpen, imageUrl, onClose
     const hideImage = () => {
       setShowImage(false);
       // Show image again after a delay
-      alert("Screenshot detected, hiding image...");
+      console.log("Screenshot detected, hiding image...");
       
     };
 
@@ -69,6 +69,24 @@ const ForecastModal: React.FC<ForecastModalProps> = ({ isOpen, imageUrl, onClose
       }
     };
 
+    // Detect volume button presses
+    const handleVolumeChange = () => {
+      if (navigator.userAgent.match(/Android|iPhone|iPad|iPod/i)) {
+        hideImage();
+      }
+    };
+
+    // Listen for any button touches on mobile
+    const handleButtonTouch = (e: TouchEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.tagName === 'BUTTON' || 
+          target.closest('button') || 
+          target.role === 'button' || 
+          target.classList.contains('btn')) {
+        hideImage();
+      }
+    };
+
     // Add event listeners
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('blur', handleBlur);
@@ -76,6 +94,16 @@ const ForecastModal: React.FC<ForecastModalProps> = ({ isOpen, imageUrl, onClose
     document.addEventListener('contextmenu', preventContextMenu);
     document.addEventListener('touchstart', handleTouchStart, { passive: false });
     document.addEventListener('visibilitychange', handleVisibilityChange);
+    
+    // Volume button detection attempt
+    if ('mediaSession' in navigator) {
+      // This might detect some volume change events
+      window.addEventListener('volumechange', handleVolumeChange);
+    }
+    
+    // Button touch detection
+    document.addEventListener('touchstart', handleButtonTouch);
+
     // Clean up
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
@@ -83,9 +111,14 @@ const ForecastModal: React.FC<ForecastModalProps> = ({ isOpen, imageUrl, onClose
       document.removeEventListener('contextmenu', preventContextMenu);
       document.removeEventListener('touchstart', handleTouchStart);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
+      if ('mediaSession' in navigator) {
+        window.removeEventListener('volumechange', handleVolumeChange);
+      }
+      document.removeEventListener('touchstart', handleButtonTouch);
     };
   }, [isOpen]);
 
+  // Rest of the component remains the same
   if (!isOpen) return null;
 
   return (
