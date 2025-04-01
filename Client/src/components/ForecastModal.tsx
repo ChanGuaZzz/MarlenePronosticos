@@ -17,35 +17,22 @@ const ForecastModal: React.FC<ForecastModalProps> = ({ isOpen, imageUrl, onClose
     const hideImage = () => {
       setShowImage(false);
       // Show image again after a delay
-      console.log("Screenshot detected, hiding image...");
+      alert("Screenshot detected, hiding image...");
+      
     };
 
-    // iOS-specific detection using visibility change
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === 'hidden') {
-        hideImage();
-      }
-    };
-
-    // Handle volume change events (volume buttons)
-    const handleVolumeChange = () => {
-      hideImage();
-    };
-
-    // Handle device orientation or motion changes (might indicate hardware button press)
-    const handleDeviceMotion = () => {
-      hideImage();
-    };
-
-    // Handle hardware back button on Android
-    const handleBackButton = (e: PopStateEvent) => {
-      hideImage();
-      // Optional: prevent default behavior
-      e.preventDefault();
-    };
     
+ // iOS-specific detection using visibility change
+ const handleVisibilityChange = () => {
+  if (document.visibilityState === 'hidden') {
+    hideImage();
+  }
+};
     // Handle keyboard events (PrintScreen, Ctrl+P, Cmd+Shift+3/4, etc.)
     const handleKeyDown = (e: KeyboardEvent) => {
+
+
+       
       // PrintScreen key
       if (e.key === 'PrintScreen') {
         hideImage();
@@ -82,8 +69,6 @@ const ForecastModal: React.FC<ForecastModalProps> = ({ isOpen, imageUrl, onClose
       }
     };
 
-        // ... existing code within useEffect ...
-    
     // Add event listeners
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('blur', handleBlur);
@@ -91,12 +76,6 @@ const ForecastModal: React.FC<ForecastModalProps> = ({ isOpen, imageUrl, onClose
     document.addEventListener('contextmenu', preventContextMenu);
     document.addEventListener('touchstart', handleTouchStart, { passive: false });
     document.addEventListener('visibilitychange', handleVisibilityChange);
-    
-    // Add listeners for hardware button detection
-    window.addEventListener('volumechange', handleVolumeChange);
-    window.addEventListener('devicemotion', handleDeviceMotion);
-    window.addEventListener('popstate', handleBackButton);
-    
     // Clean up
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
@@ -104,11 +83,6 @@ const ForecastModal: React.FC<ForecastModalProps> = ({ isOpen, imageUrl, onClose
       document.removeEventListener('contextmenu', preventContextMenu);
       document.removeEventListener('touchstart', handleTouchStart);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
-      
-      // Remove hardware button listeners
-      window.removeEventListener('volumechange', handleVolumeChange);
-      window.removeEventListener('devicemotion', handleDeviceMotion);
-      window.removeEventListener('popstate', handleBackButton);
     };
   }, [isOpen]);
 
