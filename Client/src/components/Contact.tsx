@@ -1,8 +1,8 @@
-import { useAppContext } from '../contexts/AppContext';
+// import { useAppContext } from '../contexts/AppContext';
 import { useState } from 'react';
 
 function Contact() {
-  const { Texts } = useAppContext();
+  // const { Texts } = useAppContext();
   const [email, setEmail] = useState('');
   
   const handleSubmit = (e: React.FormEvent) => {

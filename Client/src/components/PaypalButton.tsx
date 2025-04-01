@@ -21,7 +21,7 @@ const PaypalButton: React.FC<PaypalButtonProps> = (props) => {
     setIsSuccess(false);
   }
 
-  const createOrder = (data: any, actions: any) => {
+  const createOrder = ( actions: any) => {
     return actions.order.create({
       purchase_units: [
         {
@@ -35,7 +35,7 @@ const PaypalButton: React.FC<PaypalButtonProps> = (props) => {
   };
 
 
-  const onApprove = async(data: any, actions: any) => {
+  const onApprove = async( actions: any) => {
     const order = await actions.order?.capture();
     console.log("order: ", order);
     if (order.status === "COMPLETED") {

@@ -2,7 +2,7 @@ import { useAppContext } from '../contexts/AppContext';
 import { Link } from 'react-router-dom';
 
 function Footer() {
-  const { Texts, toggleLanguage, language } = useAppContext();
+  const { toggleLanguage, language } = useAppContext();
   
   return (
     <footer className="bg-green-900 text-white py-12">
