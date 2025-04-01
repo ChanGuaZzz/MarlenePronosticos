@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, use } from "react";
 
 type ForecastModalProps = {
   isOpen: boolean;
@@ -12,18 +12,27 @@ const ForecastModal: React.FC<ForecastModalProps> = ({ isOpen, imageUrl, onClose
 
   useEffect(() => {
     if (!isOpen) return;
-
+    setShowImage(isOpen);
     // Function to hide image
-    const hideImage = (mode: string="normal") => {
+    const hideImage = () => {
       setShowImage(false);
       // Show image again after a delay
-      if (mode === "normal") {
-        setTimeout(() => setShowImage(true), 3000);
-      }
+      console.log("Screenshot detected, hiding image...");
+      
     };
 
+    
+ // iOS-specific detection using visibility change
+ const handleVisibilityChange = () => {
+  if (document.visibilityState === 'hidden') {
+    hideImage();
+  }
+};
     // Handle keyboard events (PrintScreen, Ctrl+P, Cmd+Shift+3/4, etc.)
     const handleKeyDown = (e: KeyboardEvent) => {
+
+
+       
       // PrintScreen key
       if (e.key === 'PrintScreen') {
         hideImage();
@@ -42,7 +51,7 @@ const ForecastModal: React.FC<ForecastModalProps> = ({ isOpen, imageUrl, onClose
 
     // Window blur might indicate screenshot tool activation
     const handleBlur = () => {
-      hideImage("blur");
+      hideImage();
     };
 
     // Prevent context menu (right-click and long press on mobile)
@@ -66,13 +75,14 @@ const ForecastModal: React.FC<ForecastModalProps> = ({ isOpen, imageUrl, onClose
     window.addEventListener('focus', () => setShowImage(true)); // Reset on focus
     document.addEventListener('contextmenu', preventContextMenu);
     document.addEventListener('touchstart', handleTouchStart, { passive: false });
-    
+    document.addEventListener('visibilitychange', handleVisibilityChange);
     // Clean up
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('blur', handleBlur);
       document.removeEventListener('contextmenu', preventContextMenu);
       document.removeEventListener('touchstart', handleTouchStart);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, [isOpen]);
 
