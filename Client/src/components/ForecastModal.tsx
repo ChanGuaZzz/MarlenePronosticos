@@ -17,7 +17,7 @@ const ForecastModal: React.FC<ForecastModalProps> = ({ isOpen, imageUrl, onClose
     const hideImage = () => {
       setShowImage(false);
       // Show image again after a delay
-      console.log("Screenshot detected, hiding image...");
+      alert("Screenshot detected, hiding image...");
       
     };
 
