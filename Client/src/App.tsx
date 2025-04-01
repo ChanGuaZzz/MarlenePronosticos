@@ -12,6 +12,7 @@ import ScrollToTop from './components/ScrollToTop.tsx'
 import MyPurchases from './pages/MyPurchases.tsx'
 
 function App() {
+  console.log(import.meta.env.VITE_PAYPAL_CLIENT_ID)
   return (
     <AppProvider>
       <PayPalScriptProvider options={{ "clientId": `${import.meta.env.VITE_PAYPAL_CLIENT_ID}` }}>
