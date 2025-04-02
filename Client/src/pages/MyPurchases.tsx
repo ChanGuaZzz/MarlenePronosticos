@@ -10,7 +10,6 @@ function MyPurchases() {
   // Estado para almacenar las compras
   const [purchases, setPurchases] = useState<purchase[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const { session } = useAppContext();
 
   // Estado para el modal
@@ -55,13 +54,6 @@ function MyPurchases() {
     );
   }
 
-  if (error) {
-    return (
-      <div className="min-h-screen bg-green-50 flex justify-center items-center">
-        <div className="text-red-600 text-xl">{error}</div>
-      </div>
-    );
-  }
 
   return (
     <>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAppContext } from "../contexts/AppContext";
-import { Coins, DoorOpen } from "lucide-react";
+import { Coins } from "lucide-react";
 
 const Header: React.FC = () => {
   const location = useLocation();
