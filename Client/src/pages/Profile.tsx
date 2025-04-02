@@ -1,58 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { FaUser, FaPhone, FaEnvelope, FaShoppingCart, FaCalendarAlt, FaEdit, FaSave, FaTimes } from "react-icons/fa";
 import Footer from "../components/Footer";
-
-interface UserProfile {
-  id: string;
-  fullName: string;
-  email: string;
-  phoneNumber: string;
-  memberSince: string;
-  totalPurchases: number;
-  lastPurchase?: string;
-}
+import { useAppContext } from "../contexts/AppContext";
+import { session } from "../models/interfaces";
+import ModalToLock from "../components/ModalToLock";
 
 const Profile: React.FC = () => {
-  const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [profile, setProfile] = useState<session | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [formData, setFormData] = useState<Partial<UserProfile>>({});
+  const [formData, setFormData] = useState<Partial<session>>({});
+  const { session } = useAppContext(); // Assuming you have a context to get the session
 
   useEffect(() => {
-    // Simulate API call with dummy data
-    const fetchProfile = async () => {
-      try {
-        // Fake API delay
-        await new Promise((resolve) => setTimeout(resolve, 800));
-
-        // Dummy data
-        const dummyProfile: UserProfile = {
-          id: "usr_123456",
-          fullName: "María Rodríguez",
-          email: "maria.rodriguez@example.com",
-          phoneNumber: "+34 612 345 678",
-          memberSince: "15 de marzo de 2023",
-          totalPurchases: 8,
-          lastPurchase: "22 de marzo de 2025",
-        };
-
-        setProfile(dummyProfile);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching profile:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchProfile();
-  }, []);
+    setProfile(session);
+  }, [session]);
 
   const handleEdit = () => {
     if (profile) {
       setFormData({
-        fullName: profile.fullName,
+        username: profile.username,
         email: profile.email,
-        phoneNumber: profile.phoneNumber,
+        phone: profile.phone,
       });
       setIsEditing(true);
     }
@@ -88,7 +57,7 @@ const Profile: React.FC = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
+    setFormData((prev: Partial<session>) => ({
       ...prev,
       [name]: value,
     }));
@@ -103,11 +72,7 @@ const Profile: React.FC = () => {
   }
 
   if (!profile) {
-    return (
-      <div className="text-center py-12">
-        <h2 className="text-2xl font-semibold text-gray-700">No se pudo cargar el perfil</h2>
-      </div>
-    );
+    return <ModalToLock message="ver el historial de tus pronósticos comprados" />;
   }
 
   return (
@@ -126,13 +91,13 @@ const Profile: React.FC = () => {
                   {isEditing ? (
                     <input
                       type="text"
-                      name="fullName"
-                      value={formData.fullName || ""}
+                      name="username"
+                      value={formData.username || ""}
                       onChange={handleChange}
                       className="mt-4 text-xl font-semibold text-gray-800 text-center border-b border-gray-300 focus:outline-none focus:border-blue-500 w-full"
                     />
                   ) : (
-                    <h2 className="mt-4 text-xl font-semibold text-gray-800">{profile.fullName}</h2>
+                    <h2 className="mt-4 text-xl font-semibold text-gray-800">{profile.username}</h2>
                   )}
                 </div>
 
@@ -166,13 +131,13 @@ const Profile: React.FC = () => {
                       {isEditing ? (
                         <input
                           type="tel"
-                          name="phoneNumber"
-                          value={formData.phoneNumber || ""}
+                          name="phone"
+                          value={formData.phone || ""}
                           onChange={handleChange}
                           className="text-sm font-medium text-gray-800 border-b border-gray-300 focus:outline-none focus:border-blue-500 w-full"
                         />
                       ) : (
-                        <div className="text-sm font-medium text-gray-800">{profile.phoneNumber}</div>
+                        <div className="text-sm font-medium text-gray-800">{profile.phone}</div>
                       )}
                     </div>
                   </div>
@@ -193,7 +158,7 @@ const Profile: React.FC = () => {
                     </div>
                     <div className="ml-4">
                       <span className="text-xs text-gray-500">Miembro desde</span>
-                      <div className="text-sm font-medium text-gray-800">{profile.memberSince}</div>
+                      <div className="text-sm font-medium text-gray-800">{profile.createAt}</div>
                     </div>
                   </div>
 

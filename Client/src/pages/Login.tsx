@@ -2,12 +2,13 @@ import { useState } from "react";
 import Footer from "../components/Footer";
 import { Coins } from "lucide-react";
 import { useAppContext } from "../contexts/AppContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Login() {
-  const { Texts } = useAppContext();
+  const { Texts, getSession } = useAppContext();
   const [isLogin, setIsLogin] = useState(true);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -26,26 +27,43 @@ function Login() {
 
     console.log("Form Data:", formData);
     if (!isLogin) {
-      axios.post("http://localhost:3000/register", {
-        username: formData.username,
-        email: formData.email,
-        password: formData.password,
-        phone: formData.phone,
-      }, {withCredentials: true}).then((response) => {
-        console.log("Registration successful:", response.data);
-
-      }).catch((error) => {
-        console.error("Error during registration:", error);
-      });
-    }else{
-      axios.post("http://localhost:3000/login", {
-        username: formData.username,
-        password: formData.password,
-      }, {withCredentials: true}).then((response) => {
-        console.log("Login successful:", response.data);
-      }).catch((error) => {
-        console.error("Error during login:", error);
-      });
+      axios
+        .post(
+          `${import.meta.env.VITE_URL_SERVER}/register`,
+          {
+            username: formData.username,
+            email: formData.email,
+            password: formData.password,
+            phone: formData.phone,
+          },
+          { withCredentials: true }
+        )
+        .then((response) => {
+          console.log("Registration successful:", response.data);
+          getSession();
+          navigate("/pronosticos");
+        })
+        .catch((error) => {
+          console.error("Error during registration:", error);
+        });
+    } else {
+      axios
+        .post(
+          `${import.meta.env.VITE_URL_SERVER}/login`,
+          {
+            username: formData.username,
+            password: formData.password,
+          },
+          { withCredentials: true }
+        )
+        .then((response) => {
+          console.log("Login successful:", response.data);
+          getSession();
+          navigate("/pronosticos");
+        })
+        .catch((error) => {
+          console.error("Error during login:", error);
+        });
     }
   };
 

@@ -1,27 +1,29 @@
 import React from "react";
 import { PayPalButtons } from "@paypal/react-paypal-js";
 import { useAppContext } from "../contexts/AppContext.tsx";
+import axios from "axios";
 
 interface PaypalButtonProps {
   amount: string;
   invoice: string;
+  itemId: string;
 }
 
 const PaypalButton: React.FC<PaypalButtonProps> = (props) => {
-
   const { setModalPaymentOpen, setIsSuccess } = useAppContext();
+  const { session } = useAppContext();
 
   const handlePaymentSuccess = () => {
     setModalPaymentOpen(true);
     setIsSuccess(true);
-  }
+  };
 
   const handlePaymentError = () => {
     setModalPaymentOpen(true);
     setIsSuccess(false);
-  }
+  };
 
-  const createOrder = (data :any, actions: any) => {
+  const createOrder = (data: any, actions: any) => {
     console.log("createOrder data: ", data);
     return actions.order.create({
       purchase_units: [
@@ -35,14 +37,33 @@ const PaypalButton: React.FC<PaypalButtonProps> = (props) => {
     });
   };
 
-
-  const onApprove = async(data :any, actions: any) => {
+  const onApprove = async (data: any, actions: any) => {
     console.log("onApprove data: ", data);
     const order = await actions.order?.capture();
     console.log("order: ", order);
     if (order.status === "COMPLETED") {
-      handlePaymentSuccess();
       console.log("Payment successful!", order);
+      console.log("el usuario:", session?.username, " ha pagado el pronostico con id: ", props.itemId);
+      axios
+        .post(
+          `${import.meta.env.VITE_URL_SERVER}/purchase`,
+          {
+            userId: session?.id,
+            productId: props.itemId,
+            orderId: order.id,
+            status: order.status,
+            purchaseDate: order.create_time,
+          },
+          { withCredentials: true }
+        )
+        .then((response) => {
+          console.log("Purchase successful:", response.data);
+          handlePaymentSuccess();
+        })
+        .catch((error) => {
+          console.error("Error during purchase:", error);
+          handlePaymentError();
+        });
     } else {
       handlePaymentError();
     }

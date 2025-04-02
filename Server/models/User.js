@@ -25,10 +25,20 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  isAdmin: {
+    type: Boolean,
+    default: false,
+  },
   createdAt: {
     type: Date,
     default: Date.now,
   },
+
+  totalPurchases: {
+    type: Number,
+    default: 0,
+  },
+
 });
 
 // Middleware para hacer hash de la contraseña antes de guardar
@@ -45,6 +55,6 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model("users", userSchema);
 
 export default User;
