@@ -70,4 +70,35 @@ const logoutUser = async (req, res) => {
   });
 };
 
-export { registerUser, loginUser, logoutUser, changeData };
+const createAdminUser = async () => {
+  const adminUser = {
+    username: process.env.ADMIN_USERNAME,
+    email: process.env.ADMIN_EMAIL,
+    phone: process.env.ADMIN_PHONE,
+    password: process.env.ADMIN_PASSWORD,
+    isAdmin: true,
+  };
+  try {
+    const existingUser = await User.findOne({
+      $or: [
+        { username: adminUser.username },
+        { email: adminUser.email },
+        { phone: adminUser.phone },
+        { isAdmin: true },
+      ],
+    });
+
+    if (existingUser) {
+      console.log("El usuario administrador ya existe");
+      return;
+    }
+
+    const newAdminUser = new User(adminUser);
+    await newAdminUser.save();
+    console.log("Usuario administrador creado correctamente");
+  } catch (error) {
+    console.error("Error al crear el usuario administrador", error);
+  }
+}
+
+export { registerUser, loginUser, logoutUser, changeData, createAdminUser };

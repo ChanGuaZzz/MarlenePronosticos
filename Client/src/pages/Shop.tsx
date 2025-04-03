@@ -3,7 +3,7 @@ import PaypalButton from "../components/PaypalButton";
 import Footer from "../components/Footer";
 import { useAppContext } from "../contexts/AppContext";
 import { Link } from "react-router-dom";
-import { CoinsIcon, GiftIcon } from "lucide-react";
+import { CoinsIcon  } from "lucide-react";
 import { product } from "../models/interfaces";
 import axios from "axios";
 

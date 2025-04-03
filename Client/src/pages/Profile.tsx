@@ -158,7 +158,7 @@ const Profile: React.FC = () => {
                     </div>
                     <div className="ml-4">
                       <span className="text-xs text-gray-500">Miembro desde</span>
-                      <div className="text-sm font-medium text-gray-800">{profile.createAt}</div>
+                      <div className="text-sm font-medium text-gray-800">{profile.createdAt}</div>
                     </div>
                   </div>
 

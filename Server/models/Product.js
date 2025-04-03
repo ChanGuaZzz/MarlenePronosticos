@@ -43,6 +43,10 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  isActive: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const Product = mongoose.model("products", productSchema);

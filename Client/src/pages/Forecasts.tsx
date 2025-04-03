@@ -13,24 +13,24 @@ function ForeCasts() {
   // Estado para almacenar las predicciones
   const [forecasts, setForecasts] = useState<product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [serverNotWorking, setServerNotWorking] = useState(false);
   const { session } = useAppContext(); // Asegúrate de importar el contexto correctamente
 
   useEffect(() => {
     // Aquí normalmente harías una llamada API
-    // Por ahora, usamos datos de ejemplo
-    const fetchForecasts = async () => {
       setIsLoading(true);
-
-      // Simular llamada a API
 
       axios.get("http://localhost:3000/getproducts",{withCredentials: true}).then((response) => {
         const data : product[] = response.data;
         setForecasts(data);
         setIsLoading(false);
-      });
-    };
+      }).catch((error) => {
+        console.error("Error al cargar las predicciones:", error);
+        setIsLoading(false);
+        setServerNotWorking(true);
 
-    fetchForecasts();
+      });
+
   }, []);
 
   if (isLoading) {
@@ -55,7 +55,7 @@ function ForeCasts() {
           {/* Mensaje cuando no hay predicciones */}
           {forecasts.length === 0 ? (
             <div className="bg-white rounded-lg shadow-lg p-8 text-center">
-              <h3 className="text-xl font-medium text-gray-900 mb-2">No hay predicciones disponibles</h3>
+              <h3 className="text-xl font-medium text-gray-900 mb-2">{serverNotWorking?"Error with Server":"No hay predicciones disponibles"}</h3>
               <p className="text-gray-600">Vuelve más tarde para consultar nuevas predicciones</p>
             </div>
           ) : (
@@ -64,9 +64,9 @@ function ForeCasts() {
               {forecasts.map((forecast) => (
                 <div
                   key={forecast._id}
-                  className="bg-white rounded-lg shadow-lg overflow-hidden transition-transform duration-300 hover:transform hover:scale-105"
+                  className="bg-white w-[400px] m-2 rounded-lg shadow-lg overflow-hidden transition-transform duration-300 hover:transform hover:scale-105"
                 >
-                  <div className="p-6">
+                  <div className="p-6 size-full flex flex-col justify-between">
                     <div className="flex justify-between items-start">
                       <h3 className="text-lg font-bold text-gray-900 mb-2">{forecast.title}</h3>
                       <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
@@ -88,7 +88,7 @@ function ForeCasts() {
                           clipRule="evenodd"
                         />
                       </svg>
-                      Partido: {forecast.matchDate ? new Date(forecast.matchDate).toLocaleDateString() : "Fecha no disponible"}
+                      Partido: {forecast.matchDate ? `${new Date(forecast.matchDate).toLocaleDateString()} ${new Date(forecast.matchDate).toLocaleTimeString()}` : "Fecha no disponible"}
                     </div>
 
                     <div className="flex justify-between items-center mt-4">

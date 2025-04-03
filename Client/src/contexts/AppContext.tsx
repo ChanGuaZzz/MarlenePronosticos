@@ -59,15 +59,17 @@ export const AppProvider = ({ children }: AppProviderProps) => {
       }
       // Extract _id and rename it to id using destructuring
       const { _id, ...restUserData } = response.data.user;
-      const userData = { id: _id, ...restUserData };
+      const userData : session = { id: _id, ...restUserData };
       
       // Format the date if it exists
-      if (userData.createAt) {
-        const date = new Date(userData.createAt);
+      if (userData.createdAt) {
+        console.log("userData.createdAt:", userData.createdAt);
+
+        const date = new Date(userData.createdAt);
         const day = date.getDate().toString().padStart(2, '0');
         const month = (date.getMonth() + 1).toString().padStart(2, '0');
         const year = date.getFullYear();
-        userData.createAt = `${day}/${month}/${year}`;
+        userData.createdAt = `${day}/${month}/${year}`;
       }
       
       setSession(userData);

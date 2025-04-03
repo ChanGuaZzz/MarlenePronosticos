@@ -1,33 +1,62 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAppContext } from "../contexts/AppContext";
 import { Coins } from "lucide-react";
+
+// Definir el tipo para los elementos de navegación
+interface NavItem {
+  path: string;
+  label: string;
+}
 
 const Header: React.FC = () => {
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { Texts, handleLogout, session } = useAppContext();
 
+  // Estado inicial con tipo explícito
+  const [navItems, setNavItems] = useState<NavItem[]>([]);
+
+  // Actualizar navItems cuando Texts cambie
+  useEffect(() => {
+    const initialNavItems: NavItem[] = [
+      { path: "/", label: "Home" },
+      { path: "/pronosticos", label: Texts.Forecast },
+      { path: "/profile", label: Texts.profile },
+      { path: "/mis-compras", label: Texts.purchases },
+      { path: "/shop", label: Texts.shop },
+    ];
+    setNavItems(initialNavItems);
+  }, [Texts]);
+
+  // Actualizar navItems si el usuario es administrador
+  useEffect(() => {
+    if (session?.isAdmin) {
+      setNavItems([{ path: "/", label: "Home" },
+        { path: "/pronosticos", label: Texts.Forecast },
+        { path: "/profile", label: Texts.profile },
+        { path: "/administratorPage", label: Texts.admin },
+        { path: "/shop", label: Texts.shop }]);
+    }else{
+      setNavItems([{ path: "/", label: "Home" },
+        { path: "/pronosticos", label: Texts.Forecast },
+        { path: "/profile", label: Texts.profile },
+        { path: "/mis-compras", label: Texts.purchases },
+        { path: "/shop", label: Texts.shop }])
+    }
+  }, [session, Texts]);
+
   const isActive = (path: string) => {
     return location.pathname === path;
   };
 
   if (location.pathname === "/login") {
-    return null; // Don't render the header on the login page
+    return null; // No renderizar el header en la página de login
   }
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-
-  // Navigation items array
-  const navItems = [
-    { path: "/", label: "Home" },
-    { path: "/pronosticos", label: Texts.Forecast },
-    { path: "/profile", label: Texts.profile },
-    { path: "/mis-compras", label: Texts.purchases },
-    { path: "/shop", label: Texts.shop },
-  ];
 
   return (
     <>
@@ -68,7 +97,7 @@ const Header: React.FC = () => {
               </Link>
             ) : (
               <Link
-              to="/login"
+                to="/login"
                 className={`border-2 border-red-100 mx-5 text-white py-2 px-6 rounded-full no-underline font-medium hover:bg-[#d84a11] transition-colors `}
                 onClick={handleLogout}
               >
@@ -77,7 +106,7 @@ const Header: React.FC = () => {
             )}
           </div>
 
-          {/* Mobile menu button */}
+          {/* Botón para el menú móvil */}
           <button className="md:hidden text-white" onClick={toggleMenu} aria-label="Toggle menu">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
@@ -85,7 +114,7 @@ const Header: React.FC = () => {
           </button>
         </div>
 
-        {/* Mobile menu (toggle visibility based on state) */}
+        {/* Menú móvil (visibilidad basada en el estado) */}
         <div className={`md:hidden ${isMenuOpen ? "block" : "hidden"} transition-all duration-300 ease-in-out`}>
           <ul className="px-4 pt-2 pb-4 space-y-2 bg-gradient-to-r from-green-900 via-green-800 to-green-700">
             {navItems.map((item) => (

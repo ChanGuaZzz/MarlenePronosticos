@@ -3,8 +3,9 @@ export interface session {
   username: string;
   email: string;
   phone: string;
-  createAt: string;
+  createdAt: string;
   totalPurchases: number;
+  isAdmin: boolean;
 }
 
 export interface product {
