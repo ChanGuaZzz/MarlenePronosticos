@@ -55,7 +55,7 @@ function ForeCasts() {
           {/* Mensaje cuando no hay predicciones */}
           {forecasts.length === 0 ? (
             <div className="bg-white rounded-lg shadow-lg p-8 text-center">
-              <h3 className="text-xl font-medium text-gray-900 mb-2">{serverNotWorking?"Error with Server":"No hay predicciones disponibles"}</h3>
+              <h3 className={`text-xl font-medium ${serverNotWorking?"text-red-700":"text-gray-900"} mb-2`}>{serverNotWorking?"Error with Server":"No hay predicciones disponibles"}</h3>
               <p className="text-gray-600">Vuelve más tarde para consultar nuevas predicciones</p>
             </div>
           ) : (
