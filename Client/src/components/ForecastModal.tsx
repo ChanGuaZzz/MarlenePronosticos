@@ -1,3 +1,4 @@
+import { useAppContext } from "../contexts/AppContext";
 
 type ForecastModalProps = {
   isOpen: boolean;
@@ -7,9 +8,10 @@ type ForecastModalProps = {
 
 const ForecastModal: React.FC<ForecastModalProps> = ({ isOpen, imageUrl, onClose }) => {
   
+  const {session} = useAppContext();
   // const {username} = useAppContext();
 
-  if (!isOpen) return null;
+  if (!isOpen|| !session) return null;
 
   return (
     <div className="fixed inset-0 z-50 overflow-auto bg-black/60 backdrop-blur-lg bg-opacity-75 flex items-center justify-center p-4">
@@ -39,7 +41,7 @@ const ForecastModal: React.FC<ForecastModalProps> = ({ isOpen, imageUrl, onClose
                     whiteSpace: 'nowrap'
                   }}
                 >
-                  JOSE
+                  {session.username}
                 </p>
               ))}
             </div>
