@@ -42,6 +42,7 @@ function Shop() {
               createdAt: "2023-10-01T00:00:00Z",
               forecastImageUrl: "https://example.com/giftcard-basic.jpg",
               isGiftCard: true,
+              isActive: true,
             },
             {
               _id: "gc2",
@@ -52,6 +53,7 @@ function Shop() {
               createdAt: "2023-10-01T00:00:00Z",
               forecastImageUrl: "https://example.com/giftcard-basic.jpg",
               isGiftCard: true,
+              isActive: true,
             },
             {
               _id: "gc3",
@@ -61,6 +63,7 @@ function Shop() {
               createdAt: "2023-10-01T00:00:00Z",
               forecastImageUrl: "https://example.com/giftcard-basic.jpg",
               isGiftCard: true,
+              isActive: true,
             },
             {
               _id: "gc4",
@@ -71,6 +74,7 @@ function Shop() {
               createdAt: "2023-10-01T00:00:00Z",
               forecastImageUrl: "https://example.com/giftcard-basic.jpg",
               isGiftCard: true,
+              isActive: true,
             },
           ];
           setGiftCards(dummydata);
