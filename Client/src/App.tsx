@@ -11,6 +11,7 @@ import Profile from './pages/Profile.tsx'
 import ScrollToTop from './components/ScrollToTop.tsx'
 import MyPurchases from './pages/MyPurchases.tsx'
 import GetSessions from './utils/getSessions.tsx'
+import Shop from './pages/Shop.tsx'
 
 function App() {
   console.log(import.meta.env.VITE_PAYPAL_CLIENT_ID)
@@ -32,6 +33,7 @@ function App() {
             <Route path='/pronosticos' element={<ForeCasts/>} />
             <Route path='/profile' element={<Profile/>} />
             <Route path='/mis-compras' element={<MyPurchases/>} />
+            <Route path='/shop' element={<Shop/>} />
           </Routes>
       </Router>
       </PayPalScriptProvider>

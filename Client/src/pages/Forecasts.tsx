@@ -88,7 +88,7 @@ function ForeCasts() {
                           clipRule="evenodd"
                         />
                       </svg>
-                      Partido: {new Date(forecast.matchDate).toLocaleDateString()}
+                      Partido: {forecast.matchDate ? new Date(forecast.matchDate).toLocaleDateString() : "Fecha no disponible"}
                     </div>
 
                     <div className="flex justify-between items-center mt-4">

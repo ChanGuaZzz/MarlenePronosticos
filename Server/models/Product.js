@@ -19,7 +19,7 @@ const productSchema = new mongoose.Schema({
   },
   matchDate: {
     type: Date,
-    required: true,
+    required: false,
   },
   forecastImageUrl: {
     type: String,
@@ -34,6 +34,14 @@ const productSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now,
+  },
+  isGiftCard: {
+    type: Boolean,
+    default: false,
+  },
+  giftCardCode: {
+    type: String,
+    required: false,
   },
 });
 

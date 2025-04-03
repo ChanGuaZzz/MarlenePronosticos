@@ -8,14 +8,17 @@ export interface session {
 }
 
 export interface product {
-  accuracy: number;
+  accuracy?: number;
   createdAt: string;
-  description: string;
   forecastImageUrl: string;
-  matchDate: string;
+  matchDate?: string;
+  giftCardCode?: string;
+  description: string;
   price: number;
   title: string;
   _id: string;
+  isGiftCard: boolean;
+
   }
 
     export interface purchase {

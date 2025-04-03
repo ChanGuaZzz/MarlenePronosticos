@@ -1,7 +1,7 @@
 import express from "express";
 import { registerUser, loginUser, logoutUser, changeData } from "../controllers/userController.js";
 import { getpurchases, purchase } from "../controllers/purchaseController.js";
-import { getproducts } from "../controllers/productController.js";
+import { createProduct, getGiftCards, getproducts } from "../controllers/productController.js";
 
 const router = express.Router();
 router.get("/", (req, res) => {
@@ -19,6 +19,8 @@ router.post("/changeData",  changeData);
 router.post("/purchase",  purchase);
 router.get("/getpurchases",  getpurchases);
 router.get("/getproducts", getproducts)
+router.get("/getgiftcards", getGiftCards)
+router.post("/createProducts", createProduct)
 
 
 

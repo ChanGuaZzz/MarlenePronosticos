@@ -5,6 +5,7 @@ export const Texts = {
     profile : "Profile",
     login: "Login",
     purchases: "Purchases",
+    shop: "Shop",
     hero: {
       title: "SportPronos",
       subtitle: "Increase your profits with our professional sports Forecast",
@@ -96,6 +97,7 @@ export const Texts = {
     profile : "Perfil",
     login: "Iniciar sesión",
     purchases: "Compras",
+    shop: "Tienda",
     hero: {
       title: "SportPronos",
       subtitle: "Aumenta tus ganancias con nuestros pronósticos deportivos profesionales",

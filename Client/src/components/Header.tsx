@@ -26,6 +26,7 @@ const Header: React.FC = () => {
     { path: "/pronosticos", label: Texts.Forecast },
     { path: "/profile", label: Texts.profile },
     { path: "/mis-compras", label: Texts.purchases },
+    { path: "/shop", label: Texts.shop },
   ];
 
   return (
