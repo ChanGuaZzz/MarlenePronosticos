@@ -21,6 +21,19 @@ interface MessageType {
 }
 
 function AdminPage() {
+  const { session } = useAppContext();
+  const navigate = useNavigate();
+  
+  // Return early if user is not admin
+  if (!session?.isAdmin) {
+    // Optional: You could add a useEffect to redirect non-admin users
+    useEffect(() => {
+      navigate("/"); // Redirect to home or another appropriate page
+    }, [navigate]);
+    
+    return <></>; // Return empty fragment
+  }
+  
   const [formData, setFormData] = useState<FormDataType>({
     title: "",
     description: "",
@@ -35,8 +48,6 @@ function AdminPage() {
   const [loading, setLoading] = useState<boolean>(false);
   const [products, setProducts] = useState<product[]>([]);
   const [giftCards, setGiftCards] = useState<product[]>([]);
-  const {session}=useAppContext();
-  const navigate = useNavigate();
 
   const fetchProducts = async () => {
     axios
@@ -59,6 +70,7 @@ function AdminPage() {
         console.error("Error fetching data:", error);
       });
   }
+  
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -125,8 +137,6 @@ function AdminPage() {
         setLoading(false);
       });
   };
-
-  if(!session?.username)  return navigate("/login");
 
   return (
     <div className=" bg-gray-100 p-6">
