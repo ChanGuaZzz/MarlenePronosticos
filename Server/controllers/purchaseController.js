@@ -56,6 +56,17 @@ const getpurchases = async (req, res) => {
         res.status(500).json({ error: "Error al obtener las compras" });
     }
 };
+
+const getAllPurchases = async (req, res) => {
+    try {
+        const purchases = await Purchase.find({}).populate("userId").populate("productId").exec();
+        console.log("COMPRAS OBTENIDAS", purchases);
+        res.status(200).json(purchases);
+    } catch (error) {
+        console.error("ERROR AL OBTENER COMPRAS", error);
+        res.status(500).json({ error: "Error al obtener las compras" });
+    }
+};
 // ...existing code...
 
-export { purchase, getpurchases };
+export { purchase, getpurchases, getAllPurchases };

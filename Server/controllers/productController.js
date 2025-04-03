@@ -73,15 +73,45 @@ const desactivateProducts = async () => {
   }
 };
 
-const changeActiveproduct = async (req, res) => {
-  const { productId, isActive } = req.body;
+const toggleproduct = async (req, res) => {
+  const { productId } = req.body;
+  const role = req.session.user?.isAdmin;
+  if (!role) {
+    return res.status(403).json({ message: "No tienes permisos para realizar esta acción" });
+  }
+  if (!productId) {
+    return res.status(400).json({ message: "ID de producto no proporcionado" });
+  }
   try {
-    await Product.updateMany({ _id: productId }, { isActive: isActive });
-    res.status(200).json({ message: "Producto desactivado correctamente" });
+    const product = await Product.findById(productId);
+    await Product.updateOne({ _id: productId }, { $set: { isActive: !product.isActive } });
+    res.status(200).json({ message: "Producto cambiado el estado correctamente" });
   } catch (error) {
-    console.error("ERROR AL DESACTIVAR PRODUCTO", error);
-    res.status(500).json({ error: "Error al desactivar el producto" });
+    console.error("ERROR AL cambiado el estado PRODUCTO", error);
+    res.status(500).json({ error: "Error al cambiado el estado el producto" });
   }
 };
 
-export { getproducts, createProduct, getGiftCards, desactivateProducts, changeActiveproduct };
+const getallProducts = async (req, res) => {
+  try {
+    const products = await Product.find({ isGiftCard: false });
+    
+    console.log("PRODUCTOS NO TARJETAS OBTENIDAS", products);
+    res.status(200).json(products);
+  } catch (error) {
+    console.error("ERROR AL OBTENER PRODUCTOS", error);
+    res.status(500).json({ error: "Error al obtener los productos" });
+  }
+};
+const getallGiftCards = async (req, res) => {
+  try {
+    const products = await Product.find({ isGiftCard: true });
+    console.log("PRODUCTOS TARJETAS OBTENIDAS", products);
+    res.status(200).json(products);
+  } catch (error) {
+    console.error("ERROR AL OBTENER TARJETAS DE REGALO", error);
+    res.status(500).json({ error: "Error al obtener las tarjetas de regalo" });
+  }
+};
+
+export { getproducts, createProduct, getGiftCards, desactivateProducts, toggleproduct, getallProducts, getallGiftCards };

@@ -19,7 +19,7 @@ export interface product {
   title: string;
   _id: string;
   isGiftCard: boolean;
-
+  isActive: boolean;
   }
 
     export interface purchase {
