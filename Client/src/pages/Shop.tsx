@@ -22,7 +22,7 @@ function Shop() {
       // Fetch gift cards from API
 
       axios
-        .get("http://localhost:3000/getgiftcards", { withCredentials: true })
+        .get(`${import.meta.env.VITE_URL_SERVER}/getgiftcards`, { withCredentials: true })
         .then((response) => {
           const data: product[] = response.data;
           console.log("Gift Cards:", data);

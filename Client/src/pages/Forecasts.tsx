@@ -20,7 +20,7 @@ function ForeCasts() {
     // Aquí normalmente harías una llamada API
       setIsLoading(true);
 
-      axios.get("http://localhost:3000/getproducts",{withCredentials: true}).then((response) => {
+      axios.get(`${import.meta.env.VITE_URL_SERVER}/getproducts`,{withCredentials: true}).then((response) => {
         const data : product[] = response.data;
         setForecasts(data);
         setIsLoading(false);
