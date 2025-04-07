@@ -9,13 +9,18 @@ const purchase = async (req, res) => {
     // orderId:
     // status:
     // purchaseDate: 
+    // value:
+    //payerFullName= {given_name: 'Geyson Steven', surname: 'Gualdron  Arjona'}
     console.log("DATOS DE COMPRA", data);
+    const FullName = data.payerFullName.given_name + " " + data.payerFullName.surname;
     const purchase = new Purchase({
         userId: data.userId,
         productId: data.productId,
         orderId: data.orderId,
         status: data.status,
         purchaseDate: data.purchaseDate,
+        value: data.value,
+        payerFullName: FullName,
     });
     try {
         const savedPurchase = await purchase.save();
@@ -58,8 +63,20 @@ const getpurchases = async (req, res) => {
 };
 
 const getAllPurchases = async (req, res) => {
+    console.log("OBTENIENDO COMPRAS DE ADMIN");
+    const role = req.session.user?.isAdmin; // Obtener el ID del usuario de la sesión
+    if (!role) {
+        return res.status(401).json({ message: "No estás autenticado" });
+    }
+    console.log("ID DE USUARIO", role);
+
     try {
-        const purchases = await Purchase.find({}).populate("userId").populate("productId").exec();
+        const purchases = await Purchase.find({})
+            .sort({ purchaseDate: -1 }) // Ordenar por fecha descendente (más reciente primero)
+            .populate("userId")
+            .populate("productId")
+            .exec();
+            
         console.log("COMPRAS OBTENIDAS", purchases);
         res.status(200).json(purchases);
     } catch (error) {
@@ -67,6 +84,5 @@ const getAllPurchases = async (req, res) => {
         res.status(500).json({ error: "Error al obtener las compras" });
     }
 };
-// ...existing code...
 
 export { purchase, getpurchases, getAllPurchases };

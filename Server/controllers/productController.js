@@ -95,7 +95,7 @@ const toggleproduct = async (req, res) => {
 const getallProducts = async (req, res) => {
   try {
     const products = await Product.find({ isGiftCard: false });
-    
+
     console.log("PRODUCTOS NO TARJETAS OBTENIDAS", products);
     res.status(200).json(products);
   } catch (error) {
@@ -114,4 +114,31 @@ const getallGiftCards = async (req, res) => {
   }
 };
 
-export { getproducts, createProduct, getGiftCards, desactivateProducts, toggleproduct, getallProducts, getallGiftCards };
+const deleteProduct = async (req, res) => {
+  const { productId } = req.body;
+  const role = req.session.user?.isAdmin;
+  if (!role) {
+    return res.status(403).json({ message: "No tienes permisos para realizar esta acción" });
+  }
+  if (!productId) {
+    return res.status(400).json({ message: "ID de producto no proporcionado" });
+  }
+  try {
+    await Product.findByIdAndDelete(productId);
+    res.status(200).json({ message: "Producto eliminado correctamente" });
+  } catch (error) {
+    console.error("ERROR AL ELIMINAR PRODUCTO", error);
+    res.status(500).json({ error: "Error al eliminar el producto" });
+  }
+};
+
+export {
+  getproducts,
+  createProduct,
+  getGiftCards,
+  desactivateProducts,
+  deleteProduct,
+  toggleproduct,
+  getallProducts,
+  getallGiftCards,
+};

@@ -29,5 +29,12 @@ export interface product {
     purchaseDate: string;
     status: string;
     userId: string;
+    value: string;
+    payerFullName: string;
+  }
+
+  export interface MessageType {
+    text: string;
+    type: string;
   }
 

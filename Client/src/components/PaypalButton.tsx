@@ -49,9 +49,11 @@ const PaypalButton: React.FC<PaypalButtonProps> = (props) => {
           `${import.meta.env.VITE_URL_SERVER}/purchase`,
           {
             userId: session?.id,
+            payerFullName: order.payer.name,
             productId: props.itemId,
             orderId: order.id,
             status: order.status,
+            value: props.amount,
             purchaseDate: order.create_time,
           },
           { withCredentials: true }

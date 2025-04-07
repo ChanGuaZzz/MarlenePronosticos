@@ -2,13 +2,15 @@ import React, { useState, useEffect } from "react";
 import { FaUser, FaPhone, FaEnvelope, FaShoppingCart, FaCalendarAlt, FaEdit, FaSave, FaTimes } from "react-icons/fa";
 import Footer from "../components/Footer";
 import { useAppContext } from "../contexts/AppContext";
-import { session } from "../models/interfaces";
+import { MessageType, session } from "../models/interfaces";
 import ModalToLock from "../components/ModalToLock";
+import axios from "axios";
 
 const Profile: React.FC = () => {
   const [profile, setProfile] = useState<session | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [message, setMessage] = useState<MessageType>({ text: "", type: "" });
   const [formData, setFormData] = useState<Partial<session>>({});
   const { session } = useAppContext(); // Assuming you have a context to get the session
 
@@ -29,26 +31,34 @@ const Profile: React.FC = () => {
 
   const handleSave = async () => {
     setLoading(true);
-    try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 800));
 
-      // Update profile with form data
-      if (profile && formData) {
-        setProfile({
-          ...profile,
-          ...formData,
-        });
+    axios
+      .post(`${import.meta.env.VITE_URL_SERVER}/updateProfile`, { ...formData }, { withCredentials: true })
+      .then((response) => {
+        console.log("Profile updated successfully:", response.data);
+        setLoading(false);
+        if (profile && formData) {
+          setProfile({
+            ...profile,
+            ...formData,
+          });
+        }
+        setMessage({ text: "Perfil actualizado con éxito", type: "success" });
+      })
+      .catch((error) => {
+        console.error("Error updating profile:", error);
+        setLoading(false);
+        setMessage({ text: "Error al actualizar el perfil", type: "error" });
+      }).finally(() => {
+        setTimeout(() => {
+          setMessage({ text: "", type: "" });
+        }, 3000);
       }
+      );
+    // Update profile with form data
 
-      setIsEditing(false);
-      // Show success message or toast here
-    } catch (error) {
-      console.error("Error saving profile:", error);
-      // Show error message or toast here
-    } finally {
-      setLoading(false);
-    }
+    setIsEditing(false);
+    // Show success message or toast here
   };
 
   const handleCancel = () => {
@@ -78,6 +88,14 @@ const Profile: React.FC = () => {
   return (
     <>
       <div className="container mx-auto px-4 py-12 min-h-screen">
+        {message.text&&
+        <div
+        className={`p-4 mb-6 rounded-md ${
+          message.type === "success" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
+        }`}
+      >
+        {message.text}
+      </div>}
         <h1 className="text-3xl font-bold text-center mb-12">Mi Perfil</h1>
 
         <div className="flex justify-center">

@@ -84,7 +84,7 @@ function MyPurchases() {
                     >
                       <div className="p-6">
                         <div className="flex justify-between items-start">
-                          <h3 className="text-lg font-bold text-gray-900 mb-2">{purchase.productId.title}</h3>
+                          <h3 className="text-lg font-bold text-gray-900 mb-2">{purchase.productId?purchase.productId.title:"Produto Eliminado"}</h3>
                           <span
                             className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                               purchase.status === "completed" ? "bg-green-100 text-green-800" : "bg-yellow-100 text-yellow-800"
@@ -93,9 +93,9 @@ function MyPurchases() {
                             {purchase.status === "COMPLETED" ? "Completado" : "Pendiente"}
                           </span>
                         </div>
-                        <p className="text-gray-600 mb-4">{purchase.productId.description}</p>
+                        <p className="text-gray-600 mb-4">{purchase.productId?purchase.productId.description:"Produto eliminado"}</p>
 
-                        {!purchase.productId.isGiftCard && (
+                        {purchase.productId&&!purchase.productId.isGiftCard && (
                           <div className="flex items-center text-sm text-gray-500 mb-2">
                             <svg
                               className="mr-1.5 h-5 w-5 text-green-600"
@@ -130,13 +130,14 @@ function MyPurchases() {
                         </div>
 
                         <div className="flex justify-between items-center mt-4">
-                          <div className="text-xl font-bold text-green-700">${purchase.productId.price.toFixed(2)}</div>
+                          <div className="text-xl font-bold text-green-700">{purchase.value?`$${purchase.value}`:"precio no disponible"}</div>
+                          {purchase.productId&&
                           <button
                             onClick={() => handleShowForecast(purchase.productId.isGiftCard, purchase.productId.giftCardCode, purchase.productId.forecastImageUrl)}
                             className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
                           >
                             {purchase.productId.isGiftCard ? "Ver Codigo" : "Ver Pronóstico"}
-                          </button>
+                          </button>}
                         </div>
                       </div>
                     </div>

@@ -6,6 +6,10 @@ const purchaseSchema= new mongoose.Schema({
         ref: "users",
         required: true,
     },
+    payerFullName: {
+        type: String,
+        required: true,
+    },
     productId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "products",
@@ -22,6 +26,10 @@ const purchaseSchema= new mongoose.Schema({
     purchaseDate: {
         type: Date,
         default: Date.now,
+    },
+    value: {
+        type: Number,
+        required: true,
     },
 });
 

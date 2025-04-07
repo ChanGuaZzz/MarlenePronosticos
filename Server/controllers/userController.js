@@ -59,7 +59,24 @@ const loginUser = async (req, res) => {
     return res.status(500).json({ message: "Error al comprobar el usuario" });
   }
 };
-const changeData = async (req, res) => {};
+const updateProfile = async (req, res) => {
+  const { username, email, phone} = req.body;
+  const userId = req.session.user?._id; // Obtener el ID del usuario de la sesión
+  if (!userId) {
+    return res.status(401).json({ message: "No estás autenticado" });
+  }
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { username, email, phone},
+      { new: true }
+    );
+    req.session.user = updatedUser; // Actualizar el usuario en la sesión
+    return res.status(200).json({ message: "Datos actualizados correctamente", user: updatedUser });
+  } catch (error) {
+    return res.status(500).json({ message: "Error al actualizar los datos" });
+  }
+};
 const logoutUser = async (req, res) => {
   req.session.destroy((err) => {
     if (err) {
@@ -101,4 +118,4 @@ const createAdminUser = async () => {
   }
 }
 
-export { registerUser, loginUser, logoutUser, changeData, createAdminUser };
+export { registerUser, loginUser, logoutUser, updateProfile, createAdminUser };
