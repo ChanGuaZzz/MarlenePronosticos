@@ -1,5 +1,5 @@
 import express from "express";
-import { registerUser, loginUser, logoutUser, updateProfile } from "../controllers/userController.js";
+import { registerUser, loginUser, logoutUser, updateProfile,updatePassword } from "../controllers/userController.js";
 import { getpurchases, purchase, getAllPurchases } from "../controllers/purchaseController.js";
 import {
   toggleproduct,
@@ -34,5 +34,6 @@ router.post("/createproduct", createProduct);
 router.post("/toggleproduct", toggleproduct);
 router.post("/deleteproduct", deleteProduct);
 router.get("/getallpurchases", getAllPurchases);
+router.post("/changePassword", updatePassword);
 
 export default router;

@@ -16,15 +16,21 @@ function Login() {
     phone: "",
     confirmPassword: "",
   });
+  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    // Clear error message when user starts typing
+    if (errorMessage) setErrorMessage("");
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMessage(""); // Clear any previous error messages
 
+    setLoading(true); // Start loading state
     console.log("Form Data:", formData);
     if (!isLogin) {
       axios
@@ -45,6 +51,12 @@ function Login() {
         })
         .catch((error) => {
           console.error("Error during registration:", error);
+          setErrorMessage(
+            error.response?.data?.message || "Error en el registro. Por favor intente nuevamente."
+          );
+        })
+        .finally(() => {
+          setLoading(false); // End loading state
         });
     } else {
       axios
@@ -63,13 +75,26 @@ function Login() {
         })
         .catch((error) => {
           console.error("Error during login:", error);
+          setErrorMessage(
+            error.response?.data?.message || "Error al iniciar sesión. Por favor verifique sus credenciales."
+          );
+        })
+        .finally(() => {
+          setLoading(false); // End loading state
         });
     }
   };
 
+
   return (
     <>
+    {loading && (
+      <div className="fixed inset-0  flex justify-center bg-black/40 items-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      </div> 
+      )}
       <div className="min-h-screen bg-gradient-to-br to-[#007332] from-[#00a73e] flex items-center justify-center p-4">
+        
         <Link to={"/"} className="fixed backdrop-blur-lg rounded-full  flex space-x-2 top-0 left-0 px-2 m-10 z-500">
           <Coins color="yellow" size={30} className="iconofoto" />
           <h1 className="text-xl font-bold text-white">{Texts.hero.title}</h1>
@@ -88,7 +113,10 @@ function Login() {
               className={`py-2 px-4 w-1/2 text-center font-medium ${
                 isLogin ? "text-green-600 border-b-2 border-green-600" : "text-gray-500 hover:text-green-600"
               }`}
-              onClick={() => setIsLogin(true)}
+              onClick={() => {
+                setIsLogin(true);
+                setErrorMessage("");
+              }}
             >
               Iniciar Sesión
             </button>
@@ -96,11 +124,21 @@ function Login() {
               className={`py-2 px-4 w-1/2 text-center font-medium ${
                 !isLogin ? "text-green-600 border-b-2 border-green-600" : "text-gray-500 hover:text-green-600"
               }`}
-              onClick={() => setIsLogin(false)}
+              onClick={() => {
+                setIsLogin(false);
+                setErrorMessage("");
+              }}
             >
               Registrarse
             </button>
           </div>
+
+          {/* Error message display */}
+          {errorMessage && (
+            <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-md">
+              {errorMessage}
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
@@ -196,9 +234,6 @@ function Login() {
                     Recordarme
                   </label>
                 </div>
-                <a href="#" className="text-green-600 hover:text-green-800">
-                  ¿Olvidaste tu contraseña?
-                </a>
               </div>
             )}
 
